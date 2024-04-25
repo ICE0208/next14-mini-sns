@@ -2,6 +2,7 @@
 
 import db from "@/lib/db";
 import getSession from "@/lib/session";
+import { redirect } from "next/navigation";
 
 export const submitLoginAccount = async (formData: FormData) => {
   const email = formData.get("email") + "";
@@ -38,4 +39,5 @@ export const submitLoginAccount = async (formData: FormData) => {
   await session.save();
 
   console.log("good");
+  redirect("/");
 };
