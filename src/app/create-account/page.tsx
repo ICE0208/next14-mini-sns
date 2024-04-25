@@ -4,6 +4,7 @@ import Input from "@/components/form/input";
 import { submitCreateAccount } from "./actions";
 import { useFormState } from "react-dom";
 import Button from "@/components/form/button";
+import Link from "next/link";
 
 export default function CreateAccountPage() {
   const [state, dispatch] = useFormState(submitCreateAccount, null);
@@ -11,7 +12,7 @@ export default function CreateAccountPage() {
   return (
     <div className="flex min-h-screen flex-col items-center bg-[#F0F4F9] px-16 py-8">
       <form
-        className="flex w-full flex-col items-center rounded-3xl bg-white px-16 py-8"
+        className="relative flex w-full flex-col items-center rounded-3xl bg-white px-16 py-8"
         action={dispatch}
       >
         <h1 className="mb-6 text-3xl font-normal">회원가입</h1>
@@ -40,6 +41,12 @@ export default function CreateAccountPage() {
         />
         <span className="mt-2"></span>
         <Button text="회원가입!" />
+        <Link
+          className="absolute bottom-8 right-10 border-b-[1.5px] border-black"
+          href="/log-in"
+        >
+          계정이 있어요 &rarr;
+        </Link>
       </form>
     </div>
   );
