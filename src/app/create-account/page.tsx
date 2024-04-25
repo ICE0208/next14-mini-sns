@@ -12,10 +12,7 @@ export default function CreateAccountPage() {
   return (
     <div>
       <h1>회원가입 페이지</h1>
-      <form
-        className="flex flex-col"
-        action={dispatch}
-      >
+      <form className="flex flex-col" action={dispatch}>
         <InputWithLabel
           labelText="이메일"
           name="email"
