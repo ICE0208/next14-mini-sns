@@ -3,6 +3,7 @@
 import db from "@/lib/db";
 import getSession from "@/lib/session";
 import { redirect } from "next/navigation";
+import bcrypt from "bcrypt";
 
 export const submitLoginAccount = async (formData: FormData) => {
   const email = formData.get("email") + "";
@@ -29,7 +30,9 @@ export const submitLoginAccount = async (formData: FormData) => {
     console.log("해당 유저 없음");
     return;
   }
-  if (user.password !== password) {
+
+  const passwordCompare = await bcrypt.compare(password, user.password);
+  if (passwordCompare === false) {
     console.log("비밀번호 no 일치");
     return;
   }

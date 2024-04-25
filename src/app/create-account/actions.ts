@@ -1,6 +1,8 @@
 "use server";
 
 import db from "@/lib/db";
+import bcrypt from "bcrypt";
+import { redirect } from "next/navigation";
 
 export const submitCreateAccount = async (formData: FormData) => {
   const email = formData.get("email") + "";
@@ -14,14 +16,18 @@ export const submitCreateAccount = async (formData: FormData) => {
     console.log("데이터 부족");
     return;
   }
+
+  const hashedPassword = await bcrypt.hash(password, 12);
+
   const user = await db.user.create({
     data: {
       email,
       name,
-      password,
+      password: hashedPassword,
     },
   });
   console.log(user);
 
   console.log("good");
+  redirect("/log-in");
 };
