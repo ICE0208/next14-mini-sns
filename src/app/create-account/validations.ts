@@ -98,7 +98,7 @@ const checkWhiteSpace = async (
     });
     return z.NEVER;
   }
-  if (password.match(pattern)) {
+  if (passwordConfirm.match(pattern)) {
     ctx.addIssue({
       code: "custom",
       message: "공백을 포함해서는 안됩니다.",
@@ -112,9 +112,13 @@ const checkWhiteSpace = async (
 export const createUserFormSchema = z
   .object({
     name: z.string().toLowerCase().trim(),
-    email: z.string().email().toLowerCase(),
-    password: z.string().min(PASSWORD_MIN_LENGTH).max(PASSWORD_MAX_LENGTH),
-    passwordConfirm: z.string(),
+    email: z.string().trim().email().toLowerCase(),
+    password: z
+      .string()
+      .trim()
+      .min(PASSWORD_MIN_LENGTH)
+      .max(PASSWORD_MAX_LENGTH),
+    passwordConfirm: z.string().trim(),
   })
   .refine(checkPasswords, {
     message: "Both passwords should be the same!",

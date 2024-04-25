@@ -17,7 +17,7 @@ type FormState = typeToFlattenedError<
 > | null;
 
 export const submitCreateAccount = async (
-  prevState: FormState,
+  formState: FormState,
   formData: FormData
 ) => {
   const data = {
@@ -45,7 +45,6 @@ export const submitCreateAccount = async (
       },
     });
 
-    console.log("good");
     redirect("/log-in");
   }
 };

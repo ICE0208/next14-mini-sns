@@ -4,43 +4,73 @@ import db from "@/lib/db";
 import getSession from "@/lib/session";
 import { redirect } from "next/navigation";
 import bcrypt from "bcrypt";
+import { loginUserFormSchema } from "./validations";
+import { typeToFlattenedError } from "zod";
 
-export const submitLoginAccount = async (formData: FormData) => {
-  const email = formData.get("email") + "";
-  const name = formData.get("name") + "";
-  const password = formData.get("password") + "";
-  const passwordConfirm = formData.get("passwordConfirm") + "";
+type FormState =
+  | typeToFlattenedError<
+      {
+        email: string;
+        password: string;
+      },
+      string
+    >
+  | {
+      fieldErrors: {
+        password: string[];
+        email: string[];
+      };
+    }
+  | null;
 
-  // ToDo 데이터 타당성 검사 (이메일 타당성, 이메일 별명 중복, 비밀번호 타당성)
+export const submitLoginAccount = async (
+  formState: FormState,
+  formData: FormData
+) => {
+  const data = {
+    email: formData.get("email"),
+    password: formData.get("password"),
+  };
 
-  if (!email || !name || !password || !passwordConfirm) {
-    console.log("데이터 부족");
-    return;
+  const result = await loginUserFormSchema.safeParseAsync(data);
+  if (!result.success) {
+    return result.error.flatten();
+  } else {
+    // 비밀번호 확인
+    const user = await db.user.findUnique({
+      where: {
+        email: result.data.email,
+      },
+      select: {
+        id: true,
+        password: true,
+      },
+    });
+    if (!user) {
+      return {
+        fieldErrors: {
+          email: ["가입된 정보가 없습니다."],
+          password: [],
+        },
+      };
+    }
+
+    const ok = await bcrypt.compare(result.data.password, user.password);
+
+    if (ok) {
+      // 비밀번호 ok -> LOGIN
+      const session = await getSession();
+      session.id = user!.id;
+      await session.save();
+      redirect("/");
+    } else {
+      // 비밀번호 not ok -> ERROR
+      return {
+        fieldErrors: {
+          email: [],
+          password: ["비밀번호가 잘못된 듯 합니다."],
+        },
+      };
+    }
   }
-  const user = await db.user.findUnique({
-    where: {
-      email,
-    },
-    select: {
-      id: true,
-      password: true,
-    },
-  });
-  if (!user) {
-    console.log("해당 유저 없음");
-    return;
-  }
-
-  const passwordCompare = await bcrypt.compare(password, user.password);
-  if (passwordCompare === false) {
-    console.log("비밀번호 no 일치");
-    return;
-  }
-
-  const session = await getSession();
-  session.id = user.id;
-  await session.save();
-
-  console.log("good");
-  redirect("/");
 };
