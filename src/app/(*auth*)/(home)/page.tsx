@@ -1,9 +1,10 @@
 import prisma from "@/lib/db";
 import PostPreview from "../components/post-preview";
 import { cls } from "@/lib/utils";
-import { redirect } from "next/navigation";
 import Link from "next/link";
+import getSession from "@/lib/session";
 const getPosts = async () => {
+  const session = await getSession();
   const posts = await prisma.post.findMany({
     select: {
       id: true,
@@ -12,12 +13,21 @@ const getPosts = async () => {
       createdAt: true,
       author: {
         select: {
+          id: true,
           name: true,
         },
       },
       _count: {
         select: {
           likes: true,
+        },
+      },
+      likes: {
+        where: {
+          userId: session.id,
+        },
+        select: {
+          id: true,
         },
       },
     },
@@ -43,6 +53,7 @@ export default async function Home() {
             createdAt={post.createdAt}
             likeCount={post._count.likes}
             postId={post.id}
+            isLike={post.likes.length > 0}
           />
         ))}
       </div>

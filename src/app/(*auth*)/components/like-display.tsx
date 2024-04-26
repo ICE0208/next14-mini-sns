@@ -1,16 +1,50 @@
 "use client";
 
-import { toggleLikePost } from "../actions";
+import { useOptimistic, useState, useTransition } from "react";
+import { submitLikePost } from "../actions";
 
 interface LikeDisplayProps {
   postId: string;
-  initLike: number;
+  initLikeCount: number;
+  isLike: boolean;
 }
 
-export default function LikeDisplay({ initLike, postId }: LikeDisplayProps) {
+interface Like {
+  isLike: boolean;
+  count: number;
+}
+
+export default function LikeDisplay({
+  initLikeCount,
+  postId,
+  isLike,
+}: LikeDisplayProps) {
+  const [_, startTransition] = useTransition();
+  const [optimisticState, addOptimistic] = useOptimistic<
+    Like,
+    "ADD" | "REMOVE"
+  >({ isLike, count: initLikeCount }, (currentState, optimisticValue) => {
+    if (optimisticValue === "ADD") {
+      return { count: currentState.count + 1, isLike: true };
+    } else {
+      return { count: currentState.count - 1, isLike: false };
+    }
+  });
+
   const handleClick = () => {
-    toggleLikePost(postId);
+    if (optimisticState.isLike) {
+      startTransition(() => addOptimistic("REMOVE"));
+      submitLikePost(postId, "REMOVE");
+    } else {
+      startTransition(() => addOptimistic("ADD"));
+      submitLikePost(postId, "ADD");
+    }
   };
 
-  return <button onClick={handleClick}>toggle Like | Like: {initLike}</button>;
+  return (
+    <button onClick={handleClick}>
+      toggle Like | Like: {optimisticState.count} |{" "}
+      {String(optimisticState.isLike)}
+    </button>
+  );
 }

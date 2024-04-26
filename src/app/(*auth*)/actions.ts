@@ -4,7 +4,10 @@ import prisma from "@/lib/db";
 import getSession from "@/lib/session";
 import { revalidatePath } from "next/cache";
 
-export const toggleLikePost = async (postId: string) => {
+export const submitLikePost = async (
+  postId: string,
+  type: "ADD" | "REMOVE",
+) => {
   const session = await getSession();
   if (!session || !session.id) {
     console.log("no session");
@@ -16,8 +19,7 @@ export const toggleLikePost = async (postId: string) => {
   const isAlreadyLike = Boolean(
     await prisma.like.findUnique({
       where: {
-        postId,
-        userId,
+        userId_postId: { userId, postId },
       },
       select: {
         id: true,
@@ -25,22 +27,19 @@ export const toggleLikePost = async (postId: string) => {
     }),
   );
 
-  if (isAlreadyLike) {
+  if (isAlreadyLike && type === "REMOVE") {
     await prisma.like.delete({
       where: {
-        postId,
-        userId,
+        userId_postId: { userId, postId },
       },
     });
-    console.log("좋아요 지워짐");
-  } else {
+  } else if (!isAlreadyLike && type === "ADD") {
     await prisma.like.create({
       data: {
         postId,
         userId,
       },
     });
-    console.log("좋아요 추가됨");
   }
   revalidatePath("/");
 };

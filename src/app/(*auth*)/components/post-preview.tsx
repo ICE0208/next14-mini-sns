@@ -1,5 +1,26 @@
 import { cls, formatToTimeAgo } from "@/lib/utils";
 import LikeDisplay from "./like-display";
+import getSession from "@/lib/session";
+import prisma from "@/lib/db";
+import { redirect } from "next/navigation";
+
+const getUser = async () => {
+  const session = await getSession();
+  if (session.id) {
+    const user = await prisma.user.findUnique({
+      where: {
+        id: session.id,
+      },
+      select: { id: true },
+    });
+    if (!user) {
+      session.destroy();
+      return null;
+    }
+    return user;
+  }
+  return null;
+};
 
 interface PostPreviewProps {
   title: string;
@@ -8,16 +29,24 @@ interface PostPreviewProps {
   authorName: string;
   likeCount: number;
   postId: string;
+  isLike: boolean;
 }
 
-export default function PostPreview({
+export default async function PostPreview({
   title,
   content,
   createdAt,
   authorName,
   likeCount,
   postId,
+  isLike,
 }: PostPreviewProps) {
+  const user = await getUser();
+
+  if (!user) {
+    redirect("/log-in");
+  }
+
   return (
     <div
       className={cls(
@@ -37,7 +66,11 @@ export default function PostPreview({
         {content}
       </span>
       <div className="flex items-center px-1">
-        <LikeDisplay initLike={likeCount} postId={postId} />
+        <LikeDisplay
+          initLikeCount={likeCount}
+          postId={postId}
+          isLike={isLike}
+        />
         <span className="mx-1 font-medium">·</span>
         <span className="text-[14px] font-light">
           {formatToTimeAgo(createdAt.toString())}
