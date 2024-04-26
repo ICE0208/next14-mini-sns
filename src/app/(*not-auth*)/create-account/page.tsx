@@ -1,9 +1,9 @@
 "use client";
 
-import Input from "@/components/form/input";
+import Input from "@/app/(*not-auth*)/components/input";
 import { submitCreateAccount } from "./actions";
 import { useFormState } from "react-dom";
-import Button from "@/components/form/button";
+import Button from "@/app/(*not-auth*)/components/button";
 import Link from "next/link";
 
 export default function CreateAccountPage() {
