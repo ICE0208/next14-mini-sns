@@ -1,4 +1,5 @@
 import { cls, formatToTimeAgo } from "@/lib/utils";
+import LikeDisplay from "./like-display";
 
 interface PostPreviewProps {
   title: string;
@@ -6,6 +7,7 @@ interface PostPreviewProps {
   createdAt: Date;
   authorName: string;
   likeCount: number;
+  postId: string;
 }
 
 export default function PostPreview({
@@ -14,6 +16,7 @@ export default function PostPreview({
   createdAt,
   authorName,
   likeCount,
+  postId,
 }: PostPreviewProps) {
   return (
     <div
@@ -34,7 +37,7 @@ export default function PostPreview({
         {content}
       </span>
       <div className="flex items-center px-1">
-        <span>Like: {likeCount}</span>
+        <LikeDisplay initLike={likeCount} postId={postId} />
         <span className="mx-1 font-medium">·</span>
         <span className="text-[14px] font-light">
           {formatToTimeAgo(createdAt.toString())}

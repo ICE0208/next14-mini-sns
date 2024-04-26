@@ -42,6 +42,7 @@ export default async function Home() {
             authorName={post.author.name}
             createdAt={post.createdAt}
             likeCount={post._count.likes}
+            postId={post.id}
           />
         ))}
       </div>
