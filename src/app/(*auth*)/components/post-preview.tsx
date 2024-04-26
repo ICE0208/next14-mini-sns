@@ -30,7 +30,9 @@ export default function PostPreview({
         <span className="text-[14px] font-light">{authorName}</span>
       </div>
       <div className="my-2 border-b-[1px] border-b-neutral-400" />
-      <span className="flex-1 break-words px-1 font-light">{content}</span>
+      <span className="flex-1 whitespace-pre-wrap break-words px-1 font-light">
+        {content}
+      </span>
       <div className="flex items-center px-1">
         <span>Like: {likeCount}</span>
         <span className="mx-1 font-medium">·</span>

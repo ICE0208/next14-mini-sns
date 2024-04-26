@@ -18,6 +18,7 @@ export default function NewPostPage() {
             )}
             name="title"
             placeholder="제목"
+            required
           />
 
           <div className="my-3 border-b-[1px] border-b-neutral-300" />
@@ -28,6 +29,7 @@ export default function NewPostPage() {
             )}
             name="content"
             placeholder="내용을 입력하세요."
+            required
           />
           <button
             className={cls(
