@@ -1,5 +1,6 @@
 import getSession from "@/lib/session";
 import { redirect } from "next/navigation";
+import Header from "./components/header";
 
 export default async function RootLayout({
   children,
@@ -12,5 +13,10 @@ export default async function RootLayout({
     redirect("/log-in");
   }
 
-  return <>{children}</>;
+  return (
+    <>
+      <Header />
+      {children}
+    </>
+  );
 }
