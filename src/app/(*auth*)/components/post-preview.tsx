@@ -1,26 +1,5 @@
 import { cls, formatToTimeAgo } from "@/lib/utils";
 import LikeDisplay from "./like-display";
-import getSession from "@/lib/session";
-import prisma from "@/lib/db";
-import { redirect } from "next/navigation";
-
-const getUser = async () => {
-  const session = await getSession();
-  if (session.id) {
-    const user = await prisma.user.findUnique({
-      where: {
-        id: session.id,
-      },
-      select: { id: true },
-    });
-    if (!user) {
-      session.destroy();
-      return null;
-    }
-    return user;
-  }
-  return null;
-};
 
 interface PostPreviewProps {
   title: string;
@@ -41,12 +20,6 @@ export default async function PostPreview({
   postId,
   isLike,
 }: PostPreviewProps) {
-  const user = await getUser();
-
-  if (!user) {
-    redirect("/log-in");
-  }
-
   return (
     <div
       className={cls(

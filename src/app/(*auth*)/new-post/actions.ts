@@ -5,6 +5,12 @@ import getSession from "@/lib/session";
 import { redirect } from "next/navigation";
 
 export const submitNewPost = async (formData: FormData) => {
+  console.log("request");
+  // await new Promise((resolve, reject) => {
+  //   setTimeout(() => {
+  //     resolve("wait");
+  //   }, 300000);
+  // });
   const data = {
     title: formData.get("title"),
     content: formData.get("content"),

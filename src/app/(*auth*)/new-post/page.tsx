@@ -1,10 +1,21 @@
+"use client";
+
 import { cls } from "@/lib/utils";
 import { submitNewPost } from "./actions";
+import { useRef, useState, useTransition } from "react";
 
 export default function NewPostPage() {
+  const [pending, startTransition] = useTransition();
+  const handleSubmit = async (formData: FormData) => {
+    if (pending) return;
+    startTransition(async () => {
+      await submitNewPost(formData);
+    });
+  };
+
   return (
     <main className="flex flex-col items-center py-8">
-      <form action={submitNewPost}>
+      <form action={handleSubmit}>
         <div
           className={cls(
             "flex min-h-[500px] w-[520px] flex-col rounded-xl p-6",
@@ -35,7 +46,9 @@ export default function NewPostPage() {
             className={cls(
               "mt-3 flex items-center self-start rounded-lg px-[20px] py-[6px] font-light",
               "bg-neutral-200 transition ease-in-out hover:bg-neutral-300",
+              "disabled:bg-neutral-400",
             )}
+            disabled={pending}
           >
             등록
           </button>
