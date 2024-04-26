@@ -22,7 +22,7 @@ model User {
   updatedAt DateTime @updatedAt
 
   posts Post[]
-  Like  Like[]
+  likes Like[]
 }
 
 model Post {
@@ -35,7 +35,7 @@ model Post {
   author   User   @relation(fields: [authorId], references: [id])
   authorId String
 
-  Like Like[]
+  likes Like[]
 }
 
 model Like {

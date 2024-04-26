@@ -29,7 +29,7 @@ export default async function Header() {
   }
 
   return (
-    <div className="flex h-16 items-center justify-between px-4 text-lg">
+    <div className="flex h-16 items-center justify-between bg-white px-4 text-lg">
       <div>
         <Link href="/" className="text-2xl font-bold">
           <h1>Mini SNS</h1>

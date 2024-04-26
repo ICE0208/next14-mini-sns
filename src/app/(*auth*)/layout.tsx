@@ -15,7 +15,10 @@ export default async function RootLayout({
 
   return (
     <>
-      <Header />
+      <div className="fixed w-full">
+        <Header />
+      </div>
+      <div className="h-16"></div>
       {children}
     </>
   );
