@@ -8,7 +8,7 @@ interface TimeDisplayProps {
 }
 
 export default function TimeDisplay({ createdAt }: TimeDisplayProps) {
-  const [timeText, setTimeText] = useState("");
+  const [timeText, setTimeText] = useState("로딩중");
   useLayoutEffect(() => {
     setTimeText(formatToTimeAgo(createdAt.toString()));
   }, [createdAt]);
