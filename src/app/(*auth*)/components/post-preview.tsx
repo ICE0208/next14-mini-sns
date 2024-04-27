@@ -1,5 +1,8 @@
+"use client";
+
 import { cls, formatToTimeAgo } from "@/lib/utils";
 import LikeDisplay from "./like-display";
+import { useRouter } from "next/navigation";
 
 interface PostPreviewProps {
   title: string;
@@ -11,7 +14,7 @@ interface PostPreviewProps {
   isLike: boolean;
 }
 
-export default async function PostPreview({
+export default function PostPreview({
   title,
   content,
   createdAt,
@@ -20,12 +23,19 @@ export default async function PostPreview({
   postId,
   isLike,
 }: PostPreviewProps) {
+  const router = useRouter();
+
+  const handlePostClick = () => {
+    router.push(`/post/${postId}`);
+  };
+
   return (
     <div
       className={cls(
         "flex min-h-[200px] w-[520px] flex-col rounded-xl p-6",
         "border-2 border-neutral-200 shadow-[0_3px_10px_rgb(0,0,0,0.2)]",
       )}
+      onClick={handlePostClick}
     >
       <div className="flex w-full items-center px-1">
         <h2 className="overflow-hidden overflow-ellipsis text-nowrap text-[20px] font-medium">

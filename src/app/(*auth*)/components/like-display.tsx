@@ -1,6 +1,6 @@
 "use client";
 
-import { useOptimistic, useState, useTransition } from "react";
+import React, { MouseEvent, useOptimistic, useTransition } from "react";
 import { submitLikePost } from "../actions";
 
 interface LikeDisplayProps {
@@ -31,7 +31,8 @@ export default function LikeDisplay({
     }
   });
 
-  const handleClick = () => {
+  const handleClick = (event: MouseEvent<HTMLButtonElement>) => {
+    event.stopPropagation();
     if (optimisticState.isLike) {
       startTransition(() => addOptimistic("REMOVE"));
       submitLikePost(postId, "REMOVE");
