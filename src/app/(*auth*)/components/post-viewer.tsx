@@ -26,7 +26,7 @@ export default function PostViewer({
   return (
     <div
       className={cls(
-        "flex min-h-[300px] w-[520px] flex-col rounded-xl p-6",
+        "flex min-h-[300px] w-[520px] select-none flex-col rounded-xl p-6",
         "border-2 border-neutral-200 shadow-[0_3px_10px_rgb(0,0,0,0.2)]",
       )}
     >
