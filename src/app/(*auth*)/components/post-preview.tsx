@@ -4,6 +4,7 @@ import { cls } from "@/lib/utils";
 import LikeDisplay from "./like-display";
 import { useRouter } from "next/navigation";
 import TimeDisplay from "./time-display";
+import { MouseEvent } from "react";
 
 interface PostPreviewProps {
   title: string;
@@ -12,6 +13,7 @@ interface PostPreviewProps {
   authorName: string;
   likeCount: number;
   postId: string;
+  authorId: string;
   isLike: boolean;
 }
 
@@ -22,12 +24,18 @@ export default function PostPreview({
   authorName,
   likeCount,
   postId,
+  authorId,
   isLike,
 }: PostPreviewProps) {
   const router = useRouter();
 
   const handlePostClick = () => {
     router.push(`/post/${postId}`);
+  };
+
+  const handleUserClick = (event: MouseEvent<HTMLSpanElement>) => {
+    event.stopPropagation();
+    router.push(`/profile/${authorId}`);
   };
 
   return (
@@ -43,7 +51,12 @@ export default function PostPreview({
           {title}
         </h2>
         <span className="mx-1 font-medium">·</span>
-        <span className="text-[14px] font-light">{authorName}</span>
+        <span
+          className="cursor-pointer text-[14px] font-light"
+          onClick={handleUserClick}
+        >
+          {authorName}
+        </span>
       </div>
       <div className="my-2 border-b-[1px] border-b-neutral-400" />
       <span className="flex-1 whitespace-pre-wrap break-words px-1 font-light">

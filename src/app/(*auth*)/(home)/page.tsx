@@ -53,6 +53,7 @@ export default async function Home() {
             createdAt={post.createdAt}
             likeCount={post._count.likes}
             postId={post.id}
+            authorId={post.author.id}
             isLike={post.likes.length > 0}
           />
         ))}

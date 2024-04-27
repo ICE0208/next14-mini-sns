@@ -3,6 +3,8 @@
 import { cls } from "@/lib/utils";
 import LikeDisplay from "./like-display";
 import TimeDisplay from "./time-display";
+import { MouseEvent } from "react";
+import { useRouter } from "next/navigation";
 
 interface PostPreviewProps {
   title: string;
@@ -11,6 +13,7 @@ interface PostPreviewProps {
   authorName: string;
   likeCount: number;
   postId: string;
+  authorId: string;
   isLike: boolean;
 }
 
@@ -21,8 +24,16 @@ export default function PostViewer({
   authorName,
   likeCount,
   postId,
+  authorId,
   isLike,
 }: PostPreviewProps) {
+  const router = useRouter();
+
+  const handleUserClick = (event: MouseEvent<HTMLSpanElement>) => {
+    event.stopPropagation();
+    router.push(`/profile/${authorId}`);
+  };
+
   return (
     <div
       className={cls(
@@ -39,7 +50,12 @@ export default function PostViewer({
             <div className="translate-y-[3px] text-[16px]">👤</div>
           </div>
           <div className="flex translate-y-[1px] items-center gap-1">
-            <span className="text-[16px]">{authorName}</span>
+            <span
+              className="cursor-pointer text-[16px]"
+              onClick={handleUserClick}
+            >
+              {authorName}
+            </span>
             <span className="font-medium">·</span>
             <TimeDisplay createdAt={createdAt} />
           </div>

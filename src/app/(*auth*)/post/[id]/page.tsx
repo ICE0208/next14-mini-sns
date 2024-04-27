@@ -62,6 +62,7 @@ export default async function PostViewPage({ params }: PostViewPageProps) {
         createdAt={post.createdAt}
         likeCount={post._count.likes}
         postId={post.id}
+        authorId={post.author.id}
         isLike={post.likes.length > 0}
       />
     </main>
