@@ -1,7 +1,8 @@
 "use client";
 
-import { cls, formatToTimeAgo } from "@/lib/utils";
+import { cls } from "@/lib/utils";
 import LikeDisplay from "./like-display";
+import TimeDisplay from "./time-display";
 
 interface PostPreviewProps {
   title: string;
@@ -40,9 +41,7 @@ export default function PostViewer({
           <div className="flex translate-y-[1px] items-center gap-1">
             <span className="text-[16px]">{authorName}</span>
             <span className="font-medium">·</span>
-            <span className="text-[12px] font-light">
-              {formatToTimeAgo(createdAt.toString())}
-            </span>
+            <TimeDisplay createdAt={createdAt} />
           </div>
         </div>
       </div>

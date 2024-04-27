@@ -1,8 +1,9 @@
 "use client";
 
-import { cls, formatToTimeAgo } from "@/lib/utils";
+import { cls } from "@/lib/utils";
 import LikeDisplay from "./like-display";
 import { useRouter } from "next/navigation";
+import TimeDisplay from "./time-display";
 
 interface PostPreviewProps {
   title: string;
@@ -55,9 +56,7 @@ export default function PostPreview({
           isLike={isLike}
         />
         <span className="mx-1 font-medium">·</span>
-        <span className="text-[14px] font-light">
-          {formatToTimeAgo(createdAt.toString())}
-        </span>
+        <TimeDisplay createdAt={createdAt} />
       </div>
     </div>
   );

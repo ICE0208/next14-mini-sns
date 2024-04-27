@@ -43,9 +43,14 @@ export default function LikeDisplay({
   };
 
   return (
-    <button onClick={handleClick}>
-      toggle Like | Like: {optimisticState.count} |{" "}
-      {String(optimisticState.isLike)}
+    <button className="space-x-[3px]" onClick={handleClick}>
+      <span
+        className="text-red-500"
+        style={{ opacity: optimisticState.isLike ? 1 : 0.4 }}
+      >
+        ⬆
+      </span>
+      <span className="text-[14px] font-semibold">{optimisticState.count}</span>
     </button>
   );
 }

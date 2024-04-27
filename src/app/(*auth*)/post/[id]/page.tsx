@@ -52,8 +52,6 @@ export default async function PostViewPage({ params }: PostViewPageProps) {
     redirect("/");
   }
 
-  console.log(post);
-
   return (
     <main className="flex flex-col items-center py-8">
       <PostViewer
