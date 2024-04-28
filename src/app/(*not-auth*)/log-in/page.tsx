@@ -5,12 +5,15 @@ import { submitLoginAccount } from "./actions";
 import { useFormState } from "react-dom";
 import Button from "@/app/(*not-auth*)/components/button";
 import Link from "next/link";
+import BigLogo from "../components/big-logo";
+import DeveloperDisplay from "../components/developer-display";
 
 export default function CreateAccountPage() {
   const [state, dispatch] = useFormState(submitLoginAccount, null);
 
   return (
     <div className="flex min-h-screen flex-col items-center bg-[#F0F4F9] px-16 py-8">
+      <BigLogo />
       <form
         className="relative flex w-full flex-col items-center rounded-3xl bg-white px-16 py-8"
         action={dispatch}
@@ -37,6 +40,7 @@ export default function CreateAccountPage() {
           가입할래요 &rarr;
         </Link>
       </form>
+      <DeveloperDisplay />
     </div>
   );
 }

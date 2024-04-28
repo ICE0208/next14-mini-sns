@@ -3,6 +3,9 @@
 import { cls } from "@/lib/utils";
 import LikeDisplay from "./like-display";
 import TimeDisplay from "./time-display";
+import { MouseEvent } from "react";
+import { useRouter } from "next/navigation";
+import DeleteButtonForm from "./delete-button";
 
 interface PostPreviewProps {
   title: string;
@@ -11,7 +14,9 @@ interface PostPreviewProps {
   authorName: string;
   likeCount: number;
   postId: string;
+  authorId: string;
   isLike: boolean;
+  userId: string;
 }
 
 export default function PostViewer({
@@ -21,8 +26,17 @@ export default function PostViewer({
   authorName,
   likeCount,
   postId,
+  authorId,
   isLike,
+  userId,
 }: PostPreviewProps) {
+  const router = useRouter();
+
+  const handleUserClick = (event: MouseEvent<HTMLSpanElement>) => {
+    event.stopPropagation();
+    router.push(`/profile/${authorId}`);
+  };
+
   return (
     <div
       className={cls(
@@ -39,7 +53,12 @@ export default function PostViewer({
             <div className="translate-y-[3px] text-[16px]">👤</div>
           </div>
           <div className="flex translate-y-[1px] items-center gap-1">
-            <span className="text-[16px]">{authorName}</span>
+            <span
+              className="cursor-pointer text-[16px]"
+              onClick={handleUserClick}
+            >
+              {authorName}
+            </span>
             <span className="font-medium">·</span>
             <TimeDisplay createdAt={createdAt} />
           </div>
@@ -49,12 +68,13 @@ export default function PostViewer({
       <span className="flex-1 whitespace-pre-wrap break-words px-1 pb-8 font-light">
         {content}
       </span>
-      <div className="flex items-center px-1">
+      <div className="flex items-center justify-between px-1">
         <LikeDisplay
           initLikeCount={likeCount}
           postId={postId}
           isLike={isLike}
         />
+        {authorId === userId && <DeleteButtonForm postId={postId} />}
       </div>
     </div>
   );

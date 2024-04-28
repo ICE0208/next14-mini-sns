@@ -4,6 +4,8 @@ import { cls } from "@/lib/utils";
 import LikeDisplay from "./like-display";
 import { useRouter } from "next/navigation";
 import TimeDisplay from "./time-display";
+import { MouseEvent } from "react";
+import DeleteButtonForm from "./delete-button";
 
 interface PostPreviewProps {
   title: string;
@@ -12,7 +14,9 @@ interface PostPreviewProps {
   authorName: string;
   likeCount: number;
   postId: string;
+  authorId: string;
   isLike: boolean;
+  userId: string;
 }
 
 export default function PostPreview({
@@ -22,12 +26,19 @@ export default function PostPreview({
   authorName,
   likeCount,
   postId,
+  authorId,
   isLike,
+  userId,
 }: PostPreviewProps) {
   const router = useRouter();
 
   const handlePostClick = () => {
     router.push(`/post/${postId}`);
+  };
+
+  const handleUserClick = (event: MouseEvent<HTMLSpanElement>) => {
+    event.stopPropagation();
+    router.push(`/profile/${authorId}`);
   };
 
   return (
@@ -43,20 +54,28 @@ export default function PostPreview({
           {title}
         </h2>
         <span className="mx-1 font-medium">·</span>
-        <span className="text-[14px] font-light">{authorName}</span>
+        <span
+          className="cursor-pointer text-[14px] font-light"
+          onClick={handleUserClick}
+        >
+          {authorName}
+        </span>
       </div>
       <div className="my-2 border-b-[1px] border-b-neutral-400" />
       <span className="flex-1 whitespace-pre-wrap break-words px-1 font-light">
         {content}
       </span>
-      <div className="flex items-center px-1">
-        <LikeDisplay
-          initLikeCount={likeCount}
-          postId={postId}
-          isLike={isLike}
-        />
-        <span className="mx-1 font-medium">·</span>
-        <TimeDisplay createdAt={createdAt} />
+      <div className="flex items-center justify-between">
+        <div className="flex items-center px-1">
+          <LikeDisplay
+            initLikeCount={likeCount}
+            postId={postId}
+            isLike={isLike}
+          />
+          <span className="mx-1 font-medium">·</span>
+          <TimeDisplay createdAt={createdAt} />
+        </div>
+        {userId === authorId && <DeleteButtonForm postId={postId} />}
       </div>
     </div>
   );

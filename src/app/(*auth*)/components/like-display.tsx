@@ -50,7 +50,9 @@ export default function LikeDisplay({
       >
         ⬆
       </span>
-      <span className="text-[14px] font-semibold">{optimisticState.count}</span>
+      <span className="text-[14px] font-semibold">
+        {optimisticState.count >= 0 ? optimisticState.count : "···"}
+      </span>
     </button>
   );
 }
