@@ -2,6 +2,7 @@
 
 import React, { MouseEvent, useOptimistic, useTransition } from "react";
 import { submitLikePost } from "../actions";
+import { cls } from "@/lib/utils";
 
 interface LikeDisplayProps {
   postId: string;
@@ -42,14 +43,20 @@ export default function LikeDisplay({
     }
   };
 
+  const buttonOpacity = optimisticState.isLike ? "opacity-100" : "opacity-40";
+  const buttonHoverOpacity = optimisticState.isLike ? "" : "hover:opacity-70";
+
   return (
-    <button className="space-x-[3px]" onClick={handleClick}>
-      <span
-        className="text-red-500"
-        style={{ opacity: optimisticState.isLike ? 1 : 0.4 }}
+    <button className="flex items-center space-x-[3px]" onClick={handleClick}>
+      <div
+        className={cls(
+          "text-red-500 transition ease-in-out hover:scale-125",
+          buttonOpacity,
+          buttonHoverOpacity,
+        )}
       >
         ⬆
-      </span>
+      </div>
       <span className="text-[14px] font-semibold">
         {optimisticState.count >= 0 ? optimisticState.count : "···"}
       </span>

@@ -80,6 +80,7 @@ export default function PostViewer({
         {authorId === userId && (
           <DeleteButtonForm
             postId={postId}
+            deletePending={deletePending}
             setDeletePending={setDeletePending}
           />
         )}
