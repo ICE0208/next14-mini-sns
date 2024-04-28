@@ -2,7 +2,7 @@
 
 import { cls } from "@/lib/utils";
 import { submitNewPost } from "./actions";
-import { useRef, useState, useTransition } from "react";
+import { useTransition } from "react";
 
 export default function NewPostPage() {
   const [pending, startTransition] = useTransition();
