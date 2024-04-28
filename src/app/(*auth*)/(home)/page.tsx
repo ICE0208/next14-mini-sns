@@ -42,12 +42,7 @@ const getPosts = async () => {
 export default async function Home() {
   const posts = await getPosts();
   const session = await getSession();
-  const userId = session.id;
-
-  if (!userId) {
-    session.destroy();
-    return redirect("/log-in");
-  }
+  const userId = session.id!;
 
   return (
     <main className="relative">

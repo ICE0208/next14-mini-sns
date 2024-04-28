@@ -53,12 +53,7 @@ export default async function PostViewPage({ params }: PostViewPageProps) {
   }
 
   const session = await getSession();
-  const userId = session.id;
-
-  if (!userId) {
-    session.destroy();
-    return redirect("/log-in");
-  }
+  const userId = session.id!;
 
   return (
     <main className="flex flex-col items-center py-8">
