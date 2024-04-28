@@ -30,6 +30,7 @@ export default function NewPostPage() {
             name="title"
             placeholder="제목"
             required
+            disabled={pending}
           />
 
           <div className="my-3 border-b-[1px] border-b-neutral-300" />
@@ -41,6 +42,7 @@ export default function NewPostPage() {
             name="content"
             placeholder="내용을 입력하세요."
             required
+            disabled={pending}
           />
           {pending ? (
             <div className="flex h-[36px] items-center gap-[2px] text-[13px] text-neutral-500">
