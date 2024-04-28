@@ -33,7 +33,7 @@ export default function Input({
       </span>
       <input
         className={cls(
-          "w-[300px] rounded-xl border-[1.5px] border-black px-4 py-3",
+          "w-[300px] rounded-[20px] border-[1.5px] border-black px-4 py-3",
           "placeholder:text-neutral-600 focus:outline-blue-700 focus:placeholder:opacity-0",
         )}
         style={{
