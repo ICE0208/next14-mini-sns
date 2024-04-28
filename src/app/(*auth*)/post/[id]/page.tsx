@@ -52,6 +52,14 @@ export default async function PostViewPage({ params }: PostViewPageProps) {
     redirect("/");
   }
 
+  const session = await getSession();
+  const userId = session.id;
+
+  if (!userId) {
+    session.destroy();
+    return redirect("/log-in");
+  }
+
   return (
     <main className="flex flex-col items-center py-8">
       <PostViewer
@@ -64,6 +72,7 @@ export default async function PostViewPage({ params }: PostViewPageProps) {
         postId={post.id}
         authorId={post.author.id}
         isLike={post.likes.length > 0}
+        userId={userId}
       />
     </main>
   );

@@ -3,6 +3,7 @@ import PostPreview from "../components/post-preview";
 import { cls } from "@/lib/utils";
 import Link from "next/link";
 import getSession from "@/lib/session";
+import { redirect } from "next/navigation";
 const getPosts = async () => {
   const session = await getSession();
   const posts = await prisma.post.findMany({
@@ -40,6 +41,13 @@ const getPosts = async () => {
 
 export default async function Home() {
   const posts = await getPosts();
+  const session = await getSession();
+  const userId = session.id;
+
+  if (!userId) {
+    session.destroy();
+    return redirect("/log-in");
+  }
 
   return (
     <main className="relative">
@@ -55,6 +63,7 @@ export default async function Home() {
             postId={post.id}
             authorId={post.author.id}
             isLike={post.likes.length > 0}
+            userId={userId}
           />
         ))}
       </div>

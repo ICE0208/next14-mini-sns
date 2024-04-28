@@ -5,6 +5,7 @@ import LikeDisplay from "./like-display";
 import { useRouter } from "next/navigation";
 import TimeDisplay from "./time-display";
 import { MouseEvent } from "react";
+import DeleteButtonForm from "./delete-button";
 
 interface PostPreviewProps {
   title: string;
@@ -15,6 +16,7 @@ interface PostPreviewProps {
   postId: string;
   authorId: string;
   isLike: boolean;
+  userId: string;
 }
 
 export default function PostPreview({
@@ -26,6 +28,7 @@ export default function PostPreview({
   postId,
   authorId,
   isLike,
+  userId,
 }: PostPreviewProps) {
   const router = useRouter();
 
@@ -62,14 +65,17 @@ export default function PostPreview({
       <span className="flex-1 whitespace-pre-wrap break-words px-1 font-light">
         {content}
       </span>
-      <div className="flex items-center px-1">
-        <LikeDisplay
-          initLikeCount={likeCount}
-          postId={postId}
-          isLike={isLike}
-        />
-        <span className="mx-1 font-medium">·</span>
-        <TimeDisplay createdAt={createdAt} />
+      <div className="flex items-center justify-between">
+        <div className="flex items-center px-1">
+          <LikeDisplay
+            initLikeCount={likeCount}
+            postId={postId}
+            isLike={isLike}
+          />
+          <span className="mx-1 font-medium">·</span>
+          <TimeDisplay createdAt={createdAt} />
+        </div>
+        {userId === authorId && <DeleteButtonForm postId={postId} />}
       </div>
     </div>
   );

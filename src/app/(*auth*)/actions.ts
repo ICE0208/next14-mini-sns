@@ -43,3 +43,36 @@ export const submitLikePost = async (
   }
   revalidatePath("/");
 };
+
+export const submitDeletePost = async (postId: string) => {
+  const session = await getSession();
+  const userId = session.id;
+
+  const post = await prisma.post.findUnique({
+    where: {
+      id: postId,
+    },
+    select: {
+      id: true,
+      authorId: true,
+    },
+  });
+
+  if (!post) {
+    console.log("no 포스트");
+    return "삭제할 포스트가 없음";
+  }
+  if (userId !== post.authorId) {
+    console.log("no 권한");
+    return "권한이 없음";
+  }
+
+  await prisma.post.delete({
+    where: {
+      id: post.id,
+    },
+  });
+
+  console.log("삭제 완료");
+  revalidatePath("/");
+};
