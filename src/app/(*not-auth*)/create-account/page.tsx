@@ -7,6 +7,7 @@ import Button from "@/app/(*not-auth*)/components/button";
 import Link from "next/link";
 import BigLogo from "../components/big-logo";
 import DeveloperDisplay from "../components/developer-display";
+import { cls } from "@/lib/utils";
 
 export default function CreateAccountPage() {
   const [state, dispatch] = useFormState(submitCreateAccount, null);
@@ -15,10 +16,13 @@ export default function CreateAccountPage() {
     <div className="flex min-h-screen flex-col items-center bg-[#F0F4F9] px-16 py-8">
       <BigLogo />
       <form
-        className="relative flex w-full flex-col items-center rounded-3xl bg-white px-16 py-8"
+        className={cls(
+          "relative flex w-full max-w-[700px] flex-col items-center rounded-3xl bg-white px-16 py-8",
+          "shadow-[0_3px_10px_rgb(0,0,0,0.2)]",
+        )}
         action={dispatch}
       >
-        <h1 className="mb-6 text-3xl font-normal">회원가입</h1>
+        <h1 className="mb-6 text-3xl font-medium">회원가입</h1>
         <Input
           placeholder="이메일"
           name="email"
