@@ -1,38 +1,62 @@
 import { useFormStatus } from "react-dom";
 import { submitDeletePost } from "../actions";
 import { cls } from "@/lib/utils";
+import { Dispatch, SetStateAction, useEffect } from "react";
 interface DeleteButtonProps {
   postId: string;
+  setDeletePending: Dispatch<SetStateAction<boolean>>;
 }
 
-export default function DeleteButtonForm({ postId }: DeleteButtonProps) {
-  const onSubmit = async (_: FormData) => {
+export default function DeleteButtonForm({
+  postId,
+  setDeletePending,
+}: DeleteButtonProps) {
+  const onSubmit = (_: FormData) => {
     if (confirm("포스트를 삭제하시겠습니까?")) {
-      await submitDeletePost(postId);
+      submitDeletePost(postId);
     }
   };
 
   return (
     <form action={onSubmit}>
-      <DeleteButton />
+      <DeleteButton setDeletePending={setDeletePending} />
     </form>
   );
 }
 
-const DeleteButton = () => {
+const DeleteButton = ({
+  setDeletePending,
+}: {
+  setDeletePending: Dispatch<SetStateAction<boolean>>;
+}) => {
   const { pending } = useFormStatus();
 
+  useEffect(() => {
+    setDeletePending(pending);
+  }, [pending, setDeletePending]);
+
   return (
-    <button
-      className={cls(
-        "translate-y-[2px] transition-all ease-in-out hover:scale-125 hover:text-red-600",
-        "disabled:opacity-50 disabled:hover:scale-100 disabled:hover:text-current",
+    <div className="flex translate-y-[2px] items-center">
+      {pending ? (
+        <div className="flex items-center gap-[2px] text-[13px] text-neutral-500">
+          <span className="">삭제 처리중...</span>
+          <div className="mx-[4px] animate-spin text-[8px] font-semibold">
+            |
+          </div>
+        </div>
+      ) : (
+        <button
+          className={cls(
+            "transition-all ease-in-out hover:scale-125 hover:text-red-600",
+            "",
+          )}
+          disabled={pending}
+          onClick={(e) => e.stopPropagation()}
+        >
+          <DeleteSVG />
+        </button>
       )}
-      disabled={pending}
-      onClick={(e) => e.stopPropagation()}
-    >
-      <DeleteSVG />
-    </button>
+    </div>
   );
 };
 
