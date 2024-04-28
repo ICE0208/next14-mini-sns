@@ -1,4 +1,4 @@
-import { DocumentSVG } from "@/icons/document-svg";
+import DocumentSVG from "@/icons/document-svg";
 
 export default function PageLoading({
   svg = DocumentSVG,
