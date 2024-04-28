@@ -2,7 +2,7 @@ import Link from "next/link";
 
 export default function DeveloperDisplay() {
   return (
-    <div className="flex items-center gap-1 py-6">
+    <div className="flex items-center gap-1 pt-6">
       <div>Made By</div>
       <Link
         href="https://github.com/ICE0208"
