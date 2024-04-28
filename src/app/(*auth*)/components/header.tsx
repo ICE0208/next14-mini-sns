@@ -48,7 +48,7 @@ export default async function Header() {
             "use server";
             const session = await getSession();
             session.destroy();
-            redirect("/");
+            redirect("/log-in");
           }}
         >
           <button className="">로그아웃</button>
