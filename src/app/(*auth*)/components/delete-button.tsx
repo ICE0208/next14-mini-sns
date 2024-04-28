@@ -39,7 +39,7 @@ const DeleteButton = ({
     <div className="flex translate-y-[2px] items-center">
       {pending ? (
         <div className="flex items-center gap-[2px] text-[13px] text-neutral-500">
-          <span className="">삭제 처리중...</span>
+          <span className="select-none">삭제 처리중...</span>
           <div className="mx-[4px] animate-spin text-[8px] font-semibold">
             |
           </div>
