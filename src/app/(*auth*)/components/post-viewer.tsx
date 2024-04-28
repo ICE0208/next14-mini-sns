@@ -3,7 +3,7 @@
 import { cls } from "@/lib/utils";
 import LikeDisplay from "./like-display";
 import TimeDisplay from "./time-display";
-import { MouseEvent } from "react";
+import { MouseEvent, useState } from "react";
 import { useRouter } from "next/navigation";
 import DeleteButtonForm from "./delete-button";
 
@@ -37,12 +37,15 @@ export default function PostViewer({
     router.push(`/profile/${authorId}`);
   };
 
+  const [deletePending, setDeletePending] = useState(false);
+
   return (
     <div
       className={cls(
         "flex min-h-[300px] w-[520px] select-none flex-col rounded-xl p-6",
         "border-2 border-neutral-200 shadow-[0_3px_10px_rgb(0,0,0,0.2)]",
       )}
+      style={deletePending ? { opacity: 0.6 } : {}}
     >
       <div className="flex w-full flex-col px-1">
         <h2 className="overflow-hidden overflow-ellipsis text-nowrap text-[28px] font-medium">
@@ -74,7 +77,12 @@ export default function PostViewer({
           postId={postId}
           isLike={isLike}
         />
-        {authorId === userId && <DeleteButtonForm postId={postId} />}
+        {authorId === userId && (
+          <DeleteButtonForm
+            postId={postId}
+            setDeletePending={setDeletePending}
+          />
+        )}
       </div>
     </div>
   );
