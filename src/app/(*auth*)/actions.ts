@@ -3,6 +3,7 @@
 import prisma from "@/lib/db";
 import getSession from "@/lib/session";
 import { revalidatePath } from "next/cache";
+import { redirect } from "next/navigation";
 
 export const submitLikePost = async (
   postId: string,
@@ -75,4 +76,43 @@ export const submitDeletePost = async (postId: string) => {
 
   console.log("삭제 완료");
   revalidatePath("/");
+};
+
+export const submitNewPost = async (formData: FormData) => {
+  const data = {
+    title: formData.get("title"),
+    content: formData.get("content"),
+  };
+
+  // ToDo - Form 내용 검사
+
+  const session = await getSession();
+  if (!session || !session.id) {
+    console.log("no session");
+    return;
+  }
+
+  const user = await prisma.user.findUnique({
+    where: {
+      id: session.id,
+    },
+    select: {
+      id: true,
+    },
+  });
+
+  if (!user) {
+    console.log("해당 user가 db에 없음.");
+    return;
+  }
+
+  const newPost = await prisma.post.create({
+    data: {
+      title: data.title + "",
+      content: data.content + "",
+      authorId: session.id,
+    },
+  });
+
+  redirect("/");
 };

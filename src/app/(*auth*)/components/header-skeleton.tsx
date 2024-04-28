@@ -1,33 +1,8 @@
-import db from "@/lib/db";
 import getSession from "@/lib/session";
 import Link from "next/link";
 import { redirect } from "next/navigation";
 
-const getUser = async () => {
-  const session = await getSession();
-  if (session.id) {
-    const user = await db.user.findUnique({
-      where: {
-        id: session.id,
-      },
-      select: { id: true, name: true },
-    });
-    if (!user) {
-      session.destroy();
-      return null;
-    }
-    return user;
-  }
-  return null;
-};
-
-export default async function Header() {
-  const user = await getUser();
-
-  if (!user) {
-    return redirect("/log-in");
-  }
-
+export default function HeaderSkeleton() {
   return (
     <div className="flex h-16 items-center justify-between bg-white px-4 text-lg">
       <div>
@@ -36,11 +11,11 @@ export default async function Header() {
         </Link>
       </div>
       <div className="flex gap-1">
-        <div>
-          <span className="font-extralight">Hello, </span>
-          <Link href={`/profile/${user.id}`} className="font-medium">
-            {user.name}
-          </Link>
+        <div className="flex gap-[4px]">
+          <span className="font-light">로딩중</span>
+          <div className="mx-[4px] animate-spin text-[8px] font-semibold">
+            |
+          </div>
         </div>
         <span className="mx-[2px] font-extralight">|</span>
         <form

@@ -1,4 +1,4 @@
-export const DocumentSVG = (
+const DocumentSVG = (
   <svg
     xmlns="http://www.w3.org/2000/svg"
     fill="none"
@@ -14,3 +14,5 @@ export const DocumentSVG = (
     />
   </svg>
 );
+
+export default DocumentSVG;

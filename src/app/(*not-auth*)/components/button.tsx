@@ -23,7 +23,16 @@ export default function Button({
       onClick={onClick}
       disabled={pending}
     >
-      {pending ? "로딩중!" : text}
+      {pending ? (
+        <div className="flex items-center gap-[4px]">
+          <span>로딩중</span>
+          <div className="mx-[4px] animate-spin text-[8px] font-semibold">
+            |
+          </div>
+        </div>
+      ) : (
+        <span>{text}</span>
+      )}
     </button>
   );
 }

@@ -1,6 +1,8 @@
 import getSession from "@/lib/session";
 import { redirect } from "next/navigation";
 import Header from "./components/header";
+import { Suspense } from "react";
+import HeaderSkeleton from "./components/header-skeleton";
 
 export default async function RootLayout({
   children,
@@ -16,7 +18,9 @@ export default async function RootLayout({
   return (
     <>
       <div className="fixed z-50 w-full">
-        <Header />
+        <Suspense fallback={<HeaderSkeleton />}>
+          <Header />
+        </Suspense>
       </div>
       <div className="h-16"></div>
       {children}
