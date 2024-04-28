@@ -1,36 +1,23 @@
-This is a [Next.js](https://nextjs.org/) project bootstrapped with [`create-next-app`](https://github.com/vercel/next.js/tree/canary/packages/create-next-app).
+# NextJS 14로 만든 미니 SNS
 
-## Getting Started
+### 배포
 
-First, run the development server:
+[https://next14-mini-sns.vercel.app/](https://next14-mini-sns.vercel.app/)
 
-```bash
-npm run dev
-# or
-yarn dev
-# or
-pnpm dev
-# or
-bun dev
-```
+### 목적
 
-Open [http://localhost:3000](http://localhost:3000) with your browser to see the result.
+노마드 리액트 스터디 4기 졸업과제
 
-You can start editing the page by modifying `app/page.tsx`. The page auto-updates as you edit the file.
+### 구현 기능
 
-This project uses [`next/font`](https://nextjs.org/docs/basic-features/font-optimization) to automatically optimize and load Inter, a custom Google Font.
+- 유저 인증
+- 게시글 작성/삭제
+- 게시글 좋아요
 
-## Learn More
+### 구현 페이지
 
-To learn more about Next.js, take a look at the following resources:
-
-- [Next.js Documentation](https://nextjs.org/docs) - learn about Next.js features and API.
-- [Learn Next.js](https://nextjs.org/learn) - an interactive Next.js tutorial.
-
-You can check out [the Next.js GitHub repository](https://github.com/vercel/next.js/) - your feedback and contributions are welcome!
-
-## Deploy on Vercel
-
-The easiest way to deploy your Next.js app is to use the [Vercel Platform](https://vercel.com/new?utm_medium=default-template&filter=next.js&utm_source=create-next-app&utm_campaign=create-next-app-readme) from the creators of Next.js.
-
-Check out our [Next.js deployment documentation](https://nextjs.org/docs/deployment) for more details.
+- 로그인/회원가입 페이지 - `/log-in` `/create-account`
+- 유저 프로필 페이지 - `/profile/[id]`
+- 게시글 목록 페이지 - `/`
+- 게시글 상세 페이지 - `/post/[id]`
+- 게시글 작성 페이지 - `/new-post`
