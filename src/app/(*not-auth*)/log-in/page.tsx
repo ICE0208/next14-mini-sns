@@ -6,6 +6,7 @@ import { useFormState } from "react-dom";
 import Button from "@/app/(*not-auth*)/components/button";
 import Link from "next/link";
 import BigLogo from "../components/big-logo";
+import DeveloperDisplay from "../components/developer-display";
 
 export default function CreateAccountPage() {
   const [state, dispatch] = useFormState(submitLoginAccount, null);
@@ -39,6 +40,7 @@ export default function CreateAccountPage() {
           가입할래요 &rarr;
         </Link>
       </form>
+      <DeveloperDisplay />
     </div>
   );
 }
