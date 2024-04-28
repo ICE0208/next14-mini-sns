@@ -81,6 +81,7 @@ export default function PostPreview({
         {userId === authorId && (
           <DeleteButtonForm
             postId={postId}
+            deletePending={deletePending}
             setDeletePending={setDeletePending}
           />
         )}

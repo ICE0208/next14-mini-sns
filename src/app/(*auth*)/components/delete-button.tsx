@@ -1,43 +1,45 @@
 import { useFormStatus } from "react-dom";
 import { submitDeletePost } from "../actions";
 import { cls } from "@/lib/utils";
-import { Dispatch, SetStateAction, useEffect } from "react";
+import {
+  Dispatch,
+  FormEvent,
+  SetStateAction,
+  useEffect,
+  useTransition,
+} from "react";
 interface DeleteButtonProps {
   postId: string;
+  deletePending: boolean;
   setDeletePending: Dispatch<SetStateAction<boolean>>;
 }
 
 export default function DeleteButtonForm({
   postId,
+  deletePending,
   setDeletePending,
 }: DeleteButtonProps) {
-  const onSubmit = (_: FormData) => {
+  const [isPending, startTransition] = useTransition();
+
+  const onSubmit = (event: FormEvent<HTMLFormElement>) => {
+    event.preventDefault();
     if (confirm("포스트를 삭제하시겠습니까?")) {
+      setDeletePending(true);
       submitDeletePost(postId);
     }
   };
 
   return (
-    <form action={onSubmit}>
-      <DeleteButton setDeletePending={setDeletePending} />
+    <form onSubmit={onSubmit}>
+      <DeleteButton deletePending={deletePending} />
     </form>
   );
 }
 
-const DeleteButton = ({
-  setDeletePending,
-}: {
-  setDeletePending: Dispatch<SetStateAction<boolean>>;
-}) => {
-  const { pending } = useFormStatus();
-
-  useEffect(() => {
-    setDeletePending(pending);
-  }, [pending, setDeletePending]);
-
+const DeleteButton = ({ deletePending }: { deletePending: boolean }) => {
   return (
     <div className="flex translate-y-[2px] items-center">
-      {pending ? (
+      {deletePending ? (
         <div className="flex items-center gap-[2px] text-[13px] text-neutral-500">
           <span className="select-none">삭제 처리중...</span>
           <div className="mx-[4px] animate-spin text-[8px] font-semibold">
@@ -50,7 +52,7 @@ const DeleteButton = ({
             "transition-all ease-in-out hover:scale-125 hover:text-red-600",
             "",
           )}
-          disabled={pending}
+          disabled={deletePending}
           onClick={(e) => e.stopPropagation()}
         >
           <DeleteSVG />
